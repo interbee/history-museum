@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>展览列表</title>
+    <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/static/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/static/bootstrap-3.4.1-dist/js/bootstrap.min.js}"></script>
+    <style>
+        img{
+            display: block;
+            height: auto;
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+<!-- 添加的模态框 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">添加展览</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" th:action="@{/show}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="showName" placeholder="请输入展览名称">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图片</label>
+                        <div class="col-sm-10">
+                            <input type="file" name="photo">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">时间</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="time" placeholder="请输入展览时间">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">地点</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="location" placeholder="请输入展览地点">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--搭建显示页面-->
+<div class="container">
+    <!--    标题-->
+    <div class="row">
+        <div class="col-md-12">
+            <h1>展览列表</h1>
+        </div>
+    </div>
+    <!--    按钮-->
+    <div class="row">
+        <div class="col-md-4 col-md-offset-10">
+            <button class="btn btn-primary" id="add_modal_btn">
+                <span class="glyphicon glyphicon-plus"></span>添加</button>
+        </div>
+    </div>
+    <!--    显示表格数据-->
+    <div class="row" id="app">
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>图片</th>
+                    <th>时间</th>
+                    <th>地点</th>
+                    <th>操作</th>
+                </tr>
+                <tr th:each="show,status : ${page.list}">
+                    <td th:text="${status.count}"></td>
+                    <td th:text="${show.showName}"></td>
+                    <td>
+                        <form th:action="@{'/showphoto/'+${show.id}}" method="post" enctype="multipart/form-data">
+                            <img th:src="@{'/shows/'+${show.photo}}" alt="">
+                            <input type="file" name="photo" >
+                            <button type="submit">点击上传</button>
+                        </form>
+                    </td>
+                    <td th:text="${show.time}"></td>
+                    <td th:text="${show.location}"></td>
+                    <td>
+                        <a class="btn btn-success" th:href="@{'/show/'+${show.id}}" role="button">
+                            <span class="glyphicon glyphicon-pencil"></span>编辑</a>
+                        <a class="btn btn-danger" th:href="@{'/show/'+${show.id}}" role="button" @click="deleteVisitor()">
+                            <span class="glyphicon glyphicon-trash"></span>删除</a>
+                    </td>
+                </tr>
+            </table>
+            <form method="post" id="deleteForm">
+                <input type="hidden" name="_method" value="delete">
+            </form>
+        </div>
+    </div>
+    <!--    显示分页信息-->
+    <div class="row">
+        <!--        分页文字信息-->
+        <div class="col-md-6" th:text="'当前'+${page.pageNum}+'页，总'+${page.pages}+'页，总'+${page.total}+'条记录'"></div>
+        <!--        分页条信息-->
+        <div class="col-md-6">
+            <nav aria-label="Page navigation">
+                <ul class="pagination" >
+                    <li><a th:if="${page.hasPreviousPage}" th:href="@{/show/page/1}">首页</a></li>
+                    <li>
+                        <a th:if="${page.hasPreviousPage}" th:href="@{'/show/page/'+${page.prePage}}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <li th:each="num:${page.navigatepageNums}">
+                        <a th:href="@{'/show/page/'+${num}}" th:text="${num}">${num}</a>
+                    </li>
+
+                    <li>
+                        <a th:if="${page.hasNextPage}" th:href="@{'/show/page/'+${page.nextPage}}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li><a th:if="${page.hasNextPage}" th:href="@{'/show/page/'+${page.pages}}">末页</a></li>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" th:src="@{/static/js/vue.js}"></script>
+<script type="text/javascript">
+
+    var vue=new Vue({
+        el:"#app",
+        methods:{
+            deleteVisitor(){
+                //获取form表单
+                var form=document.getElementById("deleteForm");
+                //将超链接的href属性值赋值给form表单的action属性
+                //event.target表示当前触发事件的标签
+                form.action=event.target.href;
+                //表单提交
+                form.submit();
+                //阻止超链接的默认行为
+                event.preventDefault();
+
+                alert("删除成功！")
+            }
+        }
+    });
+
+    //点击添加按钮弹出模态框
+    $("#add_modal_btn").click(function (){
+        $("#addModal").modal({
+            backdrop:"static"
+        })
+    })
+
+</script>
+</html>

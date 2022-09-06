@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.ssm.mapper.RelicMapper">
+<!--    List<Relic> getAllRelic();-->
+    <select id="getAllRelic" resultType="Relic">
+        select * from t_rel
+    </select>
+<!--    void addRelic();-->
+    <insert id="addRelic">
+        insert into t_rel values (null,#{relName},#{photo},#{time},#{level},#{location},#{size},#{material},#{status})
+    </insert>
+<!--    void deleteRelic(Integer id);-->
+    <delete id="deleteRelic">
+        delete from t_rel where id=#{id}
+    </delete>
+<!--    void updateRelic(Relic relic);-->
+    <update id="updateRelic">
+        update t_rel set rel_name=#{relName},time=#{time},level=#{level},location=#{location},size=#{size},material=#{material},status=#{status} where id=#{id}
+    </update>
+<!--    Relic getRelicById(Integer id);-->
+    <select id="getRelicById" resultType="Relic">
+        select * from t_rel where id=#{id}
+    </select>
+<!--    void updatePhoto(String photo);-->
+    <update id="updatePhoto">
+        update t_rel set photo=#{photo} where id=#{id}
+    </update>
+<!--    List<Relic> getRelicBySearch(Map map);-->
+    <select id="getRelicBySearch" resultType="Relic">
+        select * from t_rel
+    <where>
+        <if test="relName!='' and relName!=null">
+            rel_name like '%${relName}%'
+        </if>
+        <if test="time!='全部'">
+            and time=#{time}
+        </if>
+        <if test="material!='全部'">
+            and material=#{material}
+        </if>
+    </where>
+    </select>
+</mapper>

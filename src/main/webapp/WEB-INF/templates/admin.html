@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理</title>
+    <link rel="stylesheet" th:href="@{/static/css/menu.css}">
+    <style>
+        iframe{
+            width: 100%;
+            height: 898px;
+        }
+    </style>
+</head>
+<body id="body-pd">
+    <div class="l-navbar" id="navbar">
+       <nav class="nav">
+           <div>
+               <div class="nav_brand">
+                   <ion-icon name="menu-outline" class="nav_toggle" id="nav-toggle"></ion-icon>
+                   <a href="#" class="nav_logo" th:text="${user.username}"></a>
+               </div>
+               <div class="nav_list">
+                   <a th:href="@{/}" target="content" class="nav_link active">
+                       <ion-icon name="home-outline" class="nav_icon"></ion-icon>
+                       <span class="nav_name">主页</span>
+                   </a>
+                   <a th:href="@{/relic/page/1}" target="content" class="nav_link">
+                       <ion-icon name="folder-outline" class="nav_icon"></ion-icon>
+                       <span class="nav_name">藏品管理</span>
+                   </a>
+                   <a th:href="@{/show/page/1}" target="content" class="nav_link">
+                       <ion-icon name="pie-chart-outline" class="nav_icon"></ion-icon>
+                       <span class="nav_name">展览信息</span>
+                   </a>
+                   <a th:href="@{/visitor/page/1}" target="content" class="nav_link">
+                       <ion-icon name="people-outline" class="nav_icon"></ion-icon>
+                       <span class="nav_name">游客信息</span>
+                   </a>
+               </div>
+           </div>
+           <a th:href="@{/}" class="nav_link">
+               <ion-icon name="log-out-outline" class="nav_icon"></ion-icon>
+               <span class="nav_name">退出登录</span>
+           </a>
+       </nav>
+    </div>
+
+    <div>
+        <iframe name="content" th:src="@{/}" frameborder="0"></iframe>
+    </div>
+
+    <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+    <script th:src="@{/static/js/menu.js}"></script>
+</body>
+</html>

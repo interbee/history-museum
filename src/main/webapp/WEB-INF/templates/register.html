@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册界面</title>
+    <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/static/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/static/bootstrap-3.4.1-dist/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="page-header col-md-12">
+            <h1>注册</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-md-offset-2">
+            <form th:action="@{/user}" method="post" class="form-horizontal" onsubmit="return perSubmit()">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">用户名</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" name="username" id="usernameText">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-5">
+                        <input type="password" class="form-control" name="password" id="passwordText">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">重复密码</label>
+                    <div class="col-sm-5">
+                        <input type="password" class="form-control" id="password2Text">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-10">
+                        <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> 注册</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+<script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $("#usernameText").change(function () {
+        //BOM:Bowser
+        //document.forms[0].username;
+        //用户名不能为空，而且是6~16位数字或字母组成
+        var usernameReg = /^[0-9a-zA-Z]{6,16}$/;
+        var username = this.value;
+        if (!usernameReg.test(username)) {
+            $("#usernameText").parent().addClass("has-error");
+            $("#usernameText").next("span").text("用户名至少为6位");
+        } else {
+            $("#usernameText").parent().removeClass("has-error");
+            $("#usernameText").parent().addClass("has-success");
+            $("#usernameText").next("span").text("");
+        }
+    })
+
+    $("#passwordText").change(function () {
+        var password = this.value;
+        var passwordReg = /[\w]{6,}/;///^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+        if (!passwordReg.test(password)) {
+            $("#passwordText").parent().addClass("has-error");
+            $("#passwordText").next("span").text("密码至少为6位");
+        } else {
+            $("#passwordText").parent().removeClass("has-error");
+            $("#passwordText").parent().addClass("has-success");
+            $("#passwordText").next("span").text("");
+        }
+    })
+
+    $("#password2Text").change(function () {
+        var password2 = this.value;
+        var password = $("#passwordText").val();
+        if (password2 != password) {
+            $("#password2Text").parent().addClass("has-error");
+            $("#password2Text").next("span").text("前后密码不一致");
+        } else {
+            $("#password2Text").parent().removeClass("has-error");
+            $("#password2Text").parent().addClass("has-success");
+            $("#password2Text").next("span").text("");
+        }
+    })
+
+    function perSubmit() {
+        //BOM:Bowser
+        //document.forms[0].username;
+        //用户名不能为空，而且是6~16位数字或字母组成
+        var usernameReg = /^[0-9a-zA-Z]{6,16}$/;
+        var username = $("#usernameText").val();
+        if (!usernameReg.test(username)) {
+            $("#usernameText").parent().addClass("has-error");
+            $("#usernameText").next("span").text("用户名至少为6位");
+            return false;
+        } else {
+            $("#usernameText").parent().removeClass("has-error");
+            $("#usernameText").parent().addClass("has-success");
+            $("#usernameText").next("span").text("");
+        }
+
+        var password = $("#passwordText").val();
+        var passwordReg = /[\w]{6,}/;///^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+        if (!passwordReg.test(password)) {
+            $("#passwordText").parent().addClass("has-error");
+            $("#passwordText").next("span").text("密码至少为6位");
+            return false;
+        } else {
+            $("#passwordText").parent().removeClass("has-error");
+            $("#passwordText").parent().addClass("has-success");
+            $("#passwordText").next("span").text("");
+        }
+
+
+        var password2 = $("#password2Text").val();
+        if (password2 != password) {
+            $("#password2Text").parent().addClass("has-error");
+            $("#password2Text").next("span").text("前后密码不一致");
+            return false;
+        } else {
+            $("#password2Text").parent().removeClass("has-error");
+            $("#password2Text").parent().addClass("has-success");
+            $("#password2Text").next("span").text("");
+        }
+        return true;
+    }
+
+</script>
+</html>

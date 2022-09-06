@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改游客</title>
+    <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/static/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/static/bootstrap-3.4.1-dist/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+<!--搭建显示页面-->
+<div class="container">
+<!--    标题-->
+    <div class="col-md-12">
+        <h1 class="page-header">修改藏品</h1>
+    </div>
+<!--    显示表单-->
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" th:action="@{/relic}" method="post">
+                <input type="hidden" name="_method" value="put">
+                <input type="hidden" name="id" th:value="${relic.id}">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">名称</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="relName" th:value="${relic.relName}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">时期</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" name="time">
+                            <option>史前</option>
+                            <option>周</option>
+                            <option>秦</option>
+                            <option>汉</option>
+                            <option>南北朝</option>
+                            <option>唐</option>
+                            <option>五代十国</option>
+                            <option>宋元</option>
+                            <option>明清</option>
+                            <option selected hidden th:text="${relic.time}">${relic.time}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">文物级别</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" name="level">
+                            <option>一级文物</option>
+                            <option>二级文物</option>
+                            <option selected hidden th:text="${relic.level}">${relic.level}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">出土地点</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="location" th:value="${relic.location}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">尺寸</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="3" name="size" th:text="${relic.size}">${relic.size}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">材质</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" name="material">
+                            <option>瓷器</option>
+                            <option>金银器</option>
+                            <option>陶器</option>
+                            <option>壁画</option>
+                            <option>玉石器</option>
+                            <option>钱币</option>
+                            <option>铜器</option>
+                            <option>雕塑造像</option>
+                            <option>书法绘画</option>
+                            <option>铁器及其他金属器</option>
+                            <option>石器、时刻、砖瓦</option>
+                            <option>其他</option>
+                            <option selected hidden th:text="${relic.material}">${relic.material}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">是否展览</label>
+                    <div class="col-sm-10">
+                        <div class="radio">
+                            <label>
+                                <input th:if="${relic.status}==0" type="radio" name="status" value="1" th:text="是">
+                            </label>
+                            <label>
+                                <input type="radio" name="status" th:value="${relic.status}" th:text="${relic.status==0?'否':'是'}" checked>
+                            </label>
+                            <label>
+                                <input th:if="${relic.status}==1" type="radio" name="status" value="0" th:text="否">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-refresh"></span>更新</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

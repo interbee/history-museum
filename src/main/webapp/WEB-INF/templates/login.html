@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆界面</title>
+    <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/static/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/static/bootstrap-3.4.1-dist/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="page-header col-md-12">
+            <h1>登录</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-md-offset-2">
+            <form th:action="@{/user}" method="get" class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">用户名</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" name="username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-5">
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-5">
+                        <span>没有账号？点击<a th:href="@{/register}">注册</a> </span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-10">
+                        <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> 登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

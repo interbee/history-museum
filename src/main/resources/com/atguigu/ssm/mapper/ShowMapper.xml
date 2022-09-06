@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.ssm.mapper.ShowMapper">
+<!--    List<Show> getAllShow();-->
+    <select id="getAllShow" resultType="Show">
+        select * from t_show
+    </select>
+
+<!--    void upPhoto(Map map);-->
+    <update id="upPhoto">
+        update t_show set photo=#{photo} where id=#{id}
+    </update>
+
+<!--    void addShow(Map map);-->
+    <insert id="addShow">
+        insert into t_show values (null,#{showName},#{photo},#{time},#{location})
+    </insert>
+
+<!--    Show getShowById(Integer id);-->
+    <select id="getShowById" resultType="Show">
+        select * from t_show where id=#{id}
+    </select>
+
+<!--    void updateShow(Show show);-->
+    <update id="updateShow">
+        update t_show set show_name=#{showName},time=#{time},location=#{location} where id=#{id}
+    </update>
+
+<!--    void deleteShow(Integer id);-->
+    <delete id="deleteShow">
+        delete from t_show where id=#{id}
+    </delete>
+</mapper>

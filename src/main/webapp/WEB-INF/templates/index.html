@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>陕西历史博物馆</title>
+    <link rel="stylesheet" th:href="@{/static/css/index.css}">
+    <link rel="stylesheet" th:href="@{/static/css/swiper-bundle.min.css}">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+</head>
+<body>
+    <header>
+        <div class="nav-bar">
+            <a href="" class="logo">Logo</a>
+            <div class="navigation">
+                <div class="nav-items">
+                    <i class="uil uil-times nav-close-btn"></i>
+                    <a th:if="${user}!=null" href="" th:text="'欢迎，'+${user.username}"><i class="uil uil-home"></i> </a>
+                    <a th:if="${user}==null" href=""><i class="uil uil-home"></i> 主页</a>
+                    <a th:if="${user}!=null" th:href="@{/to/order}" target="_blank"><i class="uil uil-compass"></i> 预约</a>
+                    <a th:href="@{/to/show/1}" target="_blank"><i class="uil uil-meeting-board"></i> 展览</a>
+                    <a th:href="@{/to/relic/1}" target="_blank"><i class="uil uil-document-layout-left"></i> 藏品</a>
+                    <a href="#"><i class="uil uil-info-circle"></i> 关于</a>
+                </div>
+            </div>
+            <i class="uil uil-apps nav-menu-btn"></i>
+        </div>
+    </header>
+
+    <section class="home">
+        <div class="media-icons">
+            <a th:if="${user}!=null" th:href="@{/}"><i class="uil uil-sign-out-alt"></i></a>
+            <a th:if="${user}==null" th:href="@{/login}"><i class="uil uil-user"></i></a>
+            <a href="#"><i class="uil uil-facebook-f"></i></a>
+            <a href="#"><i class="uil uil-twitter"></i></a>
+        </div>
+
+        <div class="swiper bg-slider">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img th:src="@{static/img/VCG211296597365.jpg}" alt=""/>
+                    <div class="text-content">
+                        <h2 class="title">古都明珠 华夏宝库 <span></span></h2>
+                        <p>陕西历史博物馆</p>
+                        <a th:if="${user}!=null" style="text-decoration: none;color: black" target="_blank" th:href="@{/to/order}">
+                            <button class="read-btn">点击预约 <i class="uil uil-arrow-right"></i></button>
+                        </a>
+                    </div>
+                </div>
+                <div class="swiper-slide dark-layer">
+                    <img th:src="@{static/img/VCG211313010143.jpg}" alt=""/>
+                    <div class="text-content">
+                        <h2 class="title">展览 <span></span></h2>
+                        <p>感受历史的盛衰与厚重，品读岁月的沧桑与智慧</p>
+                        <a style="text-decoration: none;color: black" target="_blank" th:href="@{/to/show/1}">
+                            <button class="read-btn">了解更多 <i class="uil uil-arrow-right"></i></button>
+                        </a>
+                    </div>
+                </div>
+                <div class="swiper-slide dark-layer">
+                    <img th:src="@{static/img/VCG211162580465.jpg}" alt=""/>
+                    <div class="text-content">
+                        <h2 class="title">藏品 <span></span></h2>
+                        <p>还原历史的风貌与震撼</p>
+                        <a style="text-decoration: none;color: black" target="_blank" th:href="@{/to/relic/1}">
+                            <button class="read-btn">了解更多 <i class="uil uil-arrow-right"></i></button>
+                        </a>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <img th:src="@{/static/img/VCG211315174961.jpg}" alt=""/>
+                    <div class="text-content">
+                        <h2 class="title">关于 <span></span></h2>
+                        <p>陕西是中华民族和华夏文明的重要发祥地之一，承载着黄帝陵、兵马俑、延安宝塔、秦岭、华山等众多中华文明、中国革命、中华地理的精神标识和自然标识。中国古代历史上包括周、秦、汉、唐等辉煌盛世在内的十四个王朝或政权都曾在这里建都，其丰富的文化遗存、深厚的文化积淀，形成了独特的历史文化风貌...</p>
+                        <button class="read-btn">了解更多 <i class="uil uil-arrow-right"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="bg-slider-thumbs">
+            <div class="swiper-wrapper thumbs-container">
+                <img class="swiper-slide" th:src="@{static/img/VCG211296597365.jpg}" alt="">
+                <img class="swiper-slide" th:src="@{static/img/VCG211313010143.jpg}" alt="">
+                <img class="swiper-slide" th:src="@{static/img/VCG211162580465.jpg}" alt="">
+                <img class="swiper-slide" th:src="@{/static/img/VCG211315174961.jpg}" alt="">
+            </div>
+        </div>
+    </section>
+
+    <section class="about section">
+        <h2>溯汉唐风韵源流 寻华夏文明根脉</h2>
+        <p></p>
+        <h1>开放时间</h1>
+        <p></p>
+        <h3>旺季</h3>
+        <h3>3月15日至11月14日</h3>
+        <h2>08：30-18：00</h2>
+        <h3>每周二至周日开放参观，周一全天闭馆整修（国家法定节假日除外）</h3>
+        <p></p>
+        <h1>票务信息</h1>
+        <p></p>
+        <h3>免费不免票</h3>
+        <p>可登录陕西历史博物馆，或关注微信公众号“陕西历史博物馆票务系统”，凭本人二代身份证，进行门票预约</p>
+        <p></p>
+        <h1>交通路线</h1>
+        <p></p>
+        <h3>陕西历史博物馆位于西安市雁塔区小寨东路91号</h3>
+        <p></p>
+        <h3>出行交通:</h3>
+        <p>1.自驾的游客请从博物馆西南角进入停车场。</p>
+        <p>2.机场大巴陕西历史博物馆线；</p>
+        <p>3.乘坐地铁3或4号线到大雁塔站，沿小寨东路向西步行约10分钟；</p>
+        <p>3.乘坐地铁2或3号线到小寨站，沿小寨东路向东步行约7至8分钟；</p>
+        <p>3.乘坐5、19、24、26、30、400路等多路公交车到陕西历史博物馆站下车；</p>
+
+    </section>
+
+    <script th:src="@{static/js/swiper-bundle.min.js}"></script>
+    <script th:src="@{static/js/main.js}"></script>
+
+</body>
+</html>
