@@ -14,7 +14,7 @@ public class Relic {
     public Relic() {
     }
 
-    public Relic(Integer id, String relName, String photo, String level, String time, String location, String size, String material, Integer status) {
+    public Relic(Integer id, String relName, String photo, String time, String level, String location, String size, String material, Integer status) {
         this.id = id;
         this.relName = relName;
         this.photo = photo;
