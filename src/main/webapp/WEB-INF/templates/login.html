@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>登陆界面</title>
+    <title>后台管理登陆界面</title>
     <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <link rel="stylesheet" th:href="@{/static/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
     <script type="text/javascript" th:src="@{/static/bootstrap-3.4.1-dist/js/bootstrap.min.js}"></script>
@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row">
         <div class="page-header col-md-12">
-            <h1>登录</h1>
+            <h1>管理员登录</h1>
         </div>
     </div>
 
@@ -21,20 +21,22 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">用户名</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" name="username">
+                        <input type="text" class="form-control" id="username" name="username" required onchange="validateUserName()">
+                        <span class="help-block" id="nameInfo" style="color: red" th:text="${msg1}"></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">密码</label>
                     <div class="col-sm-5">
                         <input type="password" class="form-control" name="password">
+                        <span class="help-block" style="color: red" th:text="${msg2}"></span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label"></label>
                     <div class="col-sm-5">
-                        <span>没有账号？点击<a th:href="@{/register}">注册</a> </span>
+                        <span>没有账号？请联系管理员申请账号 </span>
                     </div>
                 </div>
 
@@ -49,7 +51,38 @@
     </div>
 
 </div>
-
-
 </body>
+<script type="text/javascript">
+    var xmlHttp;
+    //创建Ajax对象
+    function createXMLHttpRequest() {
+        if (window.ActiveXObject) {
+            //IE6
+            xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }else {
+            //W3C浏览器和IE7及其以上版本
+            xmlHttp = new XMLHttpRequest();
+        }
+    }
+    function validateUserName() {
+        createXMLHttpRequest();
+        var username = document.getElementById("username");
+        var url = "/sxhm/ckUname?username=" + escape(username.value);
+        xmlHttp.open("GET", url, true);
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                var color = "red";
+                var message = xmlHttp.responseXML.getElementsByTagName("message")[0].firstChild.data;
+                var passed = xmlHttp.responseXML.getElementsByTagName("passed")[0].firstChild.data;
+                if (passed == "true") {
+                    color = "green";
+                }
+                document.getElementById("nameInfo").innerHTML = "<span style = color:" + color + ">"+ message + "</span>"
+            }
+        };
+        xmlHttp.send(null);
+    }
+
+
+</script>
 </html>

@@ -11,8 +11,12 @@
     <insert id="addUser">
         insert into t_user values (null,#{username},#{password})
     </insert>
-<!--    void getUser(String username)-->
-    <select id="getUser" resultType="User">
-        select * from t_user where username=#{username}
+<!--    int getUserByUname(String username)-->
+    <select id="getUserByUname" resultType="int">
+        select count(*) from t_user where username=#{username}
+    </select>
+<!--    List<User> getAllUser();-->
+    <select id="getAllUser" resultType="User">
+        select * from t_user
     </select>
 </mapper>
