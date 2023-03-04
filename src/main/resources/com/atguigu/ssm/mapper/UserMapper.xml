@@ -19,4 +19,16 @@
     <select id="getAllUser" resultType="User">
         select * from t_user
     </select>
+<!--    void deleteUserById(Integer userId);-->
+    <delete id="deleteUserById">
+        delete from t_user where id=#{userId}
+    </delete>
+<!--    User getUserById(Integer userId);-->
+    <select id="getUserById" resultType="User">
+        select * from t_user where id=#{userId}
+    </select>
+<!--    void updateUser(User user);-->
+    <update id="updateUser">
+        update t_user set username=#{username},password=#{password} where id=#{id}
+    </update>
 </mapper>

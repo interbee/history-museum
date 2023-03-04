@@ -7,6 +7,83 @@
     <link rel="stylesheet" th:href="@{/static/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
     <script type="text/javascript" th:src="@{/static/bootstrap-3.4.1-dist/js/bootstrap.min.js}"></script>
 </head>
+<body>
+<!-- 修改的模态框 -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" th:action="@{/user}" method="post" onsubmit="return updateForm()">
+                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" id="id_update_input" name="id">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">账号</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="username_update_input" name="username" readonly="readonly">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="password" id="password_update_input">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加的模态框 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">添加账号</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" th:action="@{/user}" method="post" onsubmit="return addForm()">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">账号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="username" id="username_add_input" placeholder="请输入账号">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="password" id="password_add_input" placeholder="请输入密码">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">重复密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="phone" id="password_repeat_add_input" placeholder="请再次输入密码">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!--搭建显示页面-->
 <div class="container">
     <!--    标题-->
@@ -37,9 +114,9 @@
                     <td th:text="${user.username}"></td>
                     <td th:text="${user.password}"></td>
                     <td>
-                        <a class="btn btn-success" th:href="@{'/user/'+${user.id}}" role="button">
+                        <a class="btn btn-success" id="update_modal_btn" th:href="@{'/user/'+${user.id}}" role="button" @click="getUser()">
                             <span class="glyphicon glyphicon-pencil"></span>编辑</a>
-                        <a class="btn btn-danger" th:href="@{'/user/'+${user.id}}" role="button" @click="deleteVisitor()">
+                        <a class="btn btn-danger" th:href="@{'/user/'+${user.id}}" role="button" @click="deleteUser()">
                             <span class="glyphicon glyphicon-trash"></span>删除</a>
                     </td>
                 </tr>
@@ -82,4 +159,154 @@
 </div>
 
 </body>
+<script type="text/javascript" th:src="@{/static/js/vue.js}"></script>
+<script type="text/javascript">
+
+    var vue = new Vue({
+        el:"#app",
+        methods:{
+            deleteUser(){
+                //获取form表单
+                var form = document.getElementById("deleteForm");
+                //将超链接的href属性值赋值给form表单的action属性
+                //event.target表示当前触发事件的标签
+                form.action = event.target.href;
+                //表单提交
+                form.submit();
+                //阻止超链接的默认行为
+                event.preventDefault();
+                alert("删除成功!");
+            },
+            getUser() {
+                var url = event.target.href;
+                event.preventDefault();
+                $.ajax({
+                    url:url,
+                    type:"GET",
+                    success:function (result) {
+                        //console.log(result);
+                        var id = result.id;
+                        var username = result.username;
+                        var password = result.password;
+                        $("#id_update_input").val(id);
+                        $("#username_update_input").val(username);
+                        $("#password_update_input").val(password);
+                    }
+                });
+                //打开修改的模态框
+                $("#updateModal").modal({
+                    backdrop:"static"
+                })
+            }
+        }
+    });
+
+    //点击添加按钮弹出模态框
+    $("#add_modal_btn").click(function (){
+        $("#addModal").modal({
+            backdrop:"static"
+        })
+    })
+
+    // //点击编辑按钮弹出模态框
+    // $("#update_modal_btn").click(function (){
+    //     $("#updateModal").modal({
+    //         backdrop:"static"
+    //     })
+    // })
+
+    $("#username_add_input").change(function() {
+        var usernameReg = /^[0-9a-zA-Z]{6,16}$/;
+        var username = this.value;
+        if (!usernameReg.test(username)) {
+            $("#username_add_input").parent().addClass("has-error");
+            $("#username_add_input").next("span").text("用户名至少为6位");
+        }else {
+            $("#username_add_input").parent().removeClass("has-error");
+            $("#username_add_input").parent().addClass("has-success");
+            $("#username_add_input").next("span").text("");
+        }
+    })
+
+    $("#password_add_input").change(function () {
+        var passwordReg = /[\w]{6,}/;
+        var password = this.value;
+        if (!passwordReg.test(password)) {
+            $("#password_add_input").parent().addClass("has-error");
+            $("#password_add_input").next("span").text("密码至少为6位");
+        }else {
+            $("#password_add_input").parent().removeClass("has-error");
+            $("#password_add_input").parent().addClass("has-success");
+            $("#password_add_input").next("span").text("");
+        }
+    })
+
+    $("#password_repeat_add_input").change(function () {
+        var passwordRepeat = this.value;
+        var password = $("#password_add_input").val();
+        if (password != passwordRepeat) {
+            $("#password_repeat_add_input").parent().addClass("has-error");
+            $("#password_repeat_add_input").next("span").text("密码不一致");
+        }else {
+            $("#password_repeat_add_input").parent().removeClass("has-error");
+            $("#password_repeat_add_input").parent().addClass("has-success");
+            $("#password_repeat_add_input").next("span").text("");
+        }
+    })
+
+    function addForm() {
+        var usernameReg = /^[0-9a-zA-Z]{6,16}$/;
+        var username = $("#username_add_input").val();
+        if (!usernameReg.test(username)) {
+            $("#username_add_input").parent().addClass("has-error");
+            $("#username_add_input").next("span").text("用户名至少为6位");
+            return false;
+        }else {
+            $("#username_add_input").parent().removeClass("has-error");
+            $("#username_add_input").parent().addClass("has-success");
+            $("#username_add_input").next("span").text("");
+        }
+
+        var passwordReg = /[\w]{6,}/;
+        var password = $("#password_add_input").val();
+        if (!passwordReg.test(password)) {
+            $("#password_add_input").parent().addClass("has-error");
+            $("#password_add_input").next("span").text("密码至少为6位");
+            return false;
+        }else {
+            $("#password_add_input").parent().removeClass("has-error");
+            $("#password_add_input").parent().addClass("has-success");
+            $("#password_add_input").next("span").text("");
+        }
+
+        var passwordRepeat = $("#password_repeat_add_input").val();
+        if (password != passwordRepeat) {
+            $("#password_repeat_add_input").parent().addClass("has-error");
+            $("#password_repeat_add_input").next("span").text("密码不一致");
+            return false;
+        }else {
+            $("#password_repeat_add_input").parent().removeClass("has-error");
+            $("#password_repeat_add_input").parent().addClass("has-success");
+            $("#password_repeat_add_input").next("span").text("");
+        }
+        return true;
+    }
+
+    function updateForm() {
+        var passwordReg = /[\w]{6,}/;
+        var password = $("#password_update_input").val();
+        if (!passwordReg.test(password)) {
+            $("#password_update_input").parent().addClass("has-error");
+            $("#password_update_input").next("span").text("密码至少为6位");
+            return false;
+        }else {
+            $("#password_update_input").parent().removeClass("has-error");
+            $("#password_update_input").parent().addClass("has-success");
+            $("#password_update_input").next("span").text("");
+        }
+        return true;
+    }
+
+
+</script>
 </html>

@@ -6,7 +6,10 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,35 +22,59 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/user",method = RequestMethod.POST)
-    public String ckUname(String username){
-        //User user = userService.ckUname(username);
-//        if (user!=null){
-//            return "register";
-//        }
-        return "forward:/adduser";
+    /**
+     * @Desription 根据用户ID查找用户信息
+     * @param userId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
+    public User getUserById(@PathVariable Integer userId) {
+        return userService.getUserById(userId);
     }
 
-    @RequestMapping(value = "/adduser",method = RequestMethod.POST)
-    public String addUser(User user,Model model){
+    @RequestMapping(value = "/user", method = RequestMethod.PUT)
+    public String updateUser(User user) {
+        userService.updateUser(user);
+        return "redirect:/user/page/1";
+    }
+
+    @RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE)
+    public String deleteUserById(@PathVariable Integer userId) {
+        userService.deleteUserById(userId);
+        return "redirect:/user/page/1";
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public String ckUname(String username) {
+        int rel = userService.getUserByUname(username);
+        if (rel == 0){
+            return "forward:/adduser";
+        }else {
+            return "redirect:/user/page/1";
+        }
+    }
+
+    @RequestMapping(value = "/adduser", method = RequestMethod.POST)
+    public String addUser(User user, Model model) {
         userService.addUser(user);
-        model.addAttribute("user",user);
-        return "index";
+        model.addAttribute("user", user);
+        return "redirect:/user/page/1";
     }
 
-    @RequestMapping(value = "/user",method = RequestMethod.GET)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String userLogin(HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        User user = userService.checkLogin(username,password);
-        request.setAttribute("user",user);
+        User user = userService.checkLogin(username, password);
         if (userService.getUserByUname(username) == 0) {
             request.setAttribute("msg1", "账号不存在");
-        }else {
+        } else {
             if (user != null) {
                 request.setAttribute("msg2", "登录成功");
+                request.setAttribute("user", user);
                 return "admin";
-            }else {
+            } else {
                 request.setAttribute("msg2", "密码错误");
             }
         }
@@ -62,11 +89,12 @@ public class UserController {
 //        return "login";
     }
 
+
     @RequestMapping(value = "/user/page/{pageNum}", method = RequestMethod.GET)
-    public String getUserPage(@PathVariable Integer pageNum, Model model){
+    public String getUserPage(@PathVariable Integer pageNum, Model model) {
         PageInfo<User> pageInfo = userService.getUserPage(pageNum);
         //将分页数据共享到请求域中
-        model.addAttribute("page",pageInfo);
+        model.addAttribute("page", pageInfo);
         return "user_list";
     }
 
@@ -79,7 +107,7 @@ public class UserController {
         if (rel == 1) {
             flag = true;
             message = " ";
-        }else {
+        } else {
             message = "账号不存在";
         }
 
