@@ -15,6 +15,107 @@
     </style>
 </head>
 <body>
+<!-- 修改的模态框 -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改藏品信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" th:action="@{/relic}" method="post">
+                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="id" id="update_id_input">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="relName" id="update_relName_input" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">时期</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" name="time" id="update_time_select">
+                                <option>史前</option>
+                                <option>周</option>
+                                <option>秦</option>
+                                <option>汉</option>
+                                <option>南北朝</option>
+                                <option>唐</option>
+                                <option>五代十国</option>
+                                <option>宋元</option>
+                                <option>明清</option>
+                                <option selected hidden>请选择时期</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">文物级别</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" name="level" id="update_level_select">
+                                <option>一级文物</option>
+                                <option>二级文物</option>
+                                <option selected hidden>请选择文物级别</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">出土地点</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="location" id="update_location_input">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">尺寸</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3" name="size" id="update_size_textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">材质</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" name="material" id="update_material_select">
+                                <option>瓷器</option>
+                                <option>金银器</option>
+                                <option>陶器</option>
+                                <option>壁画</option>
+                                <option>玉石器</option>
+                                <option>钱币</option>
+                                <option>铜器</option>
+                                <option>雕塑造像</option>
+                                <option>书法绘画</option>
+                                <option>铁器及其他金属器</option>
+                                <option>石器、时刻、砖瓦</option>
+                                <option>其他</option>
+                                <option selected hidden>请选择材质</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否展览</label>
+                        <div class="col-sm-10">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="status" value="1">是
+                                </label>
+                                <label>
+                                    <input type="radio" name="status" value="0" checked>否
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 添加的模态框 -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -169,7 +270,7 @@
                         <td th:text="${relic.material}"></td>
                         <td th:text="${relic.status==0?'未展出':'已展出'}"></td>
                         <td>
-                            <a class="btn btn-success" th:href="@{'/relic/'+${relic.id}}" role="button">
+                            <a class="btn btn-success" id="update_modal_btn" th:href="@{'/relic/'+${relic.id}}" role="button" @click="updateRelic()">
                                 <span class="glyphicon glyphicon-pencil"></span>编辑</a>
                             <a class="btn btn-danger" th:href="@{'/relic/'+${relic.id}}" role="button" @click="deleteVisitor()">
                                 <span class="glyphicon glyphicon-trash"></span>删除</a>
@@ -232,6 +333,28 @@
                 event.preventDefault();
 
                 alert("删除成功！")
+            },
+            updateRelic(){
+                var url = event.target.href;
+                event.preventDefault();
+                $.ajax({
+                    url:url,
+                    type:"GET",
+                    success:function (result){
+                        //console.log(result);
+                        $("#update_id_input").val(result.id);
+                        $("#update_relName_input").val(result.relName);
+                        $("#update_level_select").val(result.level);
+                        $("#update_time_select").val(result.time);
+                        $("#update_location_input").val(result.location);
+                        $("#update_size_textarea").val(result.size);
+                        $("#update_material_select").val(result.material);
+                        $("#updateModal input[name=status]").val([result.status]);
+                    }
+                })
+                $("#updateModal").modal({
+                    backdrop: "static"
+                })
             }
         }
     });
@@ -242,6 +365,13 @@
             backdrop:"static"
         })
     })
+
+    // //点击编辑按钮弹出模态框
+    // $("#update_modal_btn").click(function (){
+    //     $("#updateModal").modal({
+    //         backdrop: "static"
+    //     })
+    // })
 
 </script>
 </html>

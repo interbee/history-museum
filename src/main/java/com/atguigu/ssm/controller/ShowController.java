@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -41,11 +42,15 @@ public class ShowController {
         return "redirect:/show/page/1";
     }
 
+    /**
+     * @Description 根据id查询展览信息
+     * @param id
+     * @return
+     */
+    @ResponseBody
     @RequestMapping(value = "/show/{id}",method = RequestMethod.GET)
-    public String toUpdate(@PathVariable Integer id, Model model){
-        Show show=showService.getShowById(id);
-        model.addAttribute("show",show);
-        return "show_update";
+    public Show toUpdate(@PathVariable Integer id){
+        return showService.getShowById(id);
     }
 
     @RequestMapping(value = "/show",method = RequestMethod.POST)

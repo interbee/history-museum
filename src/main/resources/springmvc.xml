@@ -35,8 +35,6 @@
     <mvc:view-controller path="/" view-name="index"></mvc:view-controller>
     <mvc:view-controller path="/login" view-name="login"></mvc:view-controller>
     <mvc:view-controller path="/admin" view-name="admin"></mvc:view-controller>
-    <mvc:view-controller path="/register" view-name="register"></mvc:view-controller>
-    <mvc:view-controller path="/to/order" view-name="user_order"></mvc:view-controller>
 <!--    配置文件上传解析器-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
 </beans>

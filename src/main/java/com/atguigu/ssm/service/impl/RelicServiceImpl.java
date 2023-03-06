@@ -74,6 +74,13 @@ public class RelicServiceImpl implements RelicService {
         return page;
     }
 
+    /**
+     * @Description 上传图片
+     * @param photo
+     * @param session
+     * @return
+     * @throws IOException
+     */
     @Override
     public String upPhoto(MultipartFile photo, HttpSession session) throws IOException {
         String fileName=photo.getOriginalFilename();

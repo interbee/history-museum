@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -55,11 +56,15 @@ public class RelicController {
         return "redirect:/relic/page/1";
     }
 
+    /**
+     * @Desription 根据ID查询藏品信息
+     * @param id
+     * @return
+     */
+    @ResponseBody
     @RequestMapping(value = "/relic/{id}",method = RequestMethod.GET)
-    public String getRelicById(@PathVariable Integer id,Model model){
-        Relic relic=relicService.getRelicById(id);
-        model.addAttribute("relic",relic);
-        return "relic_update";
+    public Relic getRelicById(@PathVariable Integer id){
+        return relicService.getRelicById(id);
     }
 
     @RequestMapping(value = "/relic/{id}",method = RequestMethod.DELETE)

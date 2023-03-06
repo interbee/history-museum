@@ -15,6 +15,47 @@
     </style>
 </head>
 <body>
+<!-- 修改的模态框 -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改展览信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" th:action="@{/show}" method="post">
+                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="id" id="update_id_input">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="showName" id="update_showName_input">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">时间</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="time" id="update_time_input">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">地点</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="location" id="update_location_input">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 添加的模态框 -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -101,7 +142,7 @@
                     <td th:text="${show.time}"></td>
                     <td th:text="${show.location}"></td>
                     <td>
-                        <a class="btn btn-success" th:href="@{'/show/'+${show.id}}" role="button">
+                        <a class="btn btn-success" th:href="@{'/show/'+${show.id}}" role="button" id="update_modal_btn" @click="updateShow()">
                             <span class="glyphicon glyphicon-pencil"></span>编辑</a>
                         <a class="btn btn-danger" th:href="@{'/show/'+${show.id}}" role="button" @click="deleteVisitor()">
                             <span class="glyphicon glyphicon-trash"></span>删除</a>
@@ -164,6 +205,25 @@
                 event.preventDefault();
 
                 alert("删除成功！")
+            },
+            updateShow(){
+                var url = event.target.href;
+                event.preventDefault();
+                $.ajax({
+                    url:url,
+                    type:"GET",
+                    success:function (result){
+                        //console.log(result);
+                        $("#update_id_input").val(result.id);
+                        $("#update_showName_input").val(result.showName);
+                        $("#update_time_input").val(result.time);
+                        $("#update_location_input").val(result.location);
+                    }
+                })
+                //点击编辑按钮打开模态框
+                $("#updateModal").modal({
+                    backdrop:"static"
+                })
             }
         }
     });
