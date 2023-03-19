@@ -1,5 +1,8 @@
 package com.atguigu.ssm.controller;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.fastjson.JSONObject;
+import com.atguigu.ssm.listener.ExcelListener;
 import com.atguigu.ssm.pojo.Relic;
 import com.atguigu.ssm.service.RelicService;
 import com.github.pagehelper.PageInfo;
@@ -22,7 +25,22 @@ public class RelicController {
     @Autowired
     private RelicService relicService;
 
-    @RequestMapping(value = "/search/{pageNum}",method =RequestMethod.GET)
+    @ResponseBody
+    @RequestMapping(value = "/relic/import", method = RequestMethod.POST)
+    public String importRelicInfo(MultipartFile file) throws IOException {
+        ExcelListener excelListener = new ExcelListener();
+        EasyExcel.read(file.getInputStream(), Relic.class, excelListener).sheet().doRead();
+        List<Relic> list = excelListener.getDataList();
+        relicService.addRelicByList(list);
+        return "success";
+    }
+
+    @RequestMapping(value = "/relic/export", method = RequestMethod.GET)
+    public void exportRelicInfo() {
+        relicService.exportExcel();
+    }
+
+    @RequestMapping(value = "/search/{pageNum}", method = RequestMethod.GET)
     public String getRelicBySearch(String relName,String time,String material,Model model,@PathVariable Integer pageNum){
         Map map=new HashMap<>();
         map.put("relName",relName);

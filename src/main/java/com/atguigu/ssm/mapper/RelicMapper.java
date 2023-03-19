@@ -1,5 +1,6 @@
 package com.atguigu.ssm.mapper;
 
+import com.alibaba.fastjson.JSONObject;
 import com.atguigu.ssm.pojo.Relic;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface RelicMapper {
     void updatePhoto(Map map);
 
     List<Relic> getRelicBySearch(Map map);
+
+    void addRelicByList(List<Relic> list);
 }

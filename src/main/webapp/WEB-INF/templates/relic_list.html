@@ -15,6 +15,32 @@
     </style>
 </head>
 <body>
+<!-- 导入的模态框 -->
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">批量导入藏品信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" th:action="@{/relic/import}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">导入excel文件</label>
+                        <div class="col-sm-10">
+                            <input type="file" name="file">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 修改的模态框 -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -232,9 +258,13 @@
     </div>
 <!--    按钮-->
     <div class="row">
-        <div class="col-md-4 col-md-offset-10">
+        <div class="col-md-4 col-md-offset-9">
             <button class="btn btn-primary" id="add_modal_btn">
                 <span class="glyphicon glyphicon-plus"></span>添加</button>
+            <button class="btn btn-info" id="import_modal_btn">
+                <span class="glyphicon glyphicon-import"></span>导入</button>
+            <button class="btn btn-warning" id="export_modal_btn">
+                <span class="glyphicon glyphicon-export"></span>导出</button>
         </div>
     </div>
 <!--    显示表格数据-->
@@ -366,12 +396,24 @@
         })
     })
 
-    // //点击编辑按钮弹出模态框
-    // $("#update_modal_btn").click(function (){
-    //     $("#updateModal").modal({
-    //         backdrop: "static"
-    //     })
-    // })
+    //点击导入按钮弹出模态框
+    $("#import_modal_btn").click(function (){
+        $("#importModal").modal({
+            backdrop: "static"
+        })
+    })
+
+    //点击导出按钮导出excel文件
+    $("#export_modal_btn").click(function (){
+        $.ajax({
+            url:"/sxhm/relic/export",
+            type: "GET",
+            success:function (result) {
+                console.log(result);
+            }
+        })
+        alert("导出成功！");
+    })
 
 </script>
 </html>

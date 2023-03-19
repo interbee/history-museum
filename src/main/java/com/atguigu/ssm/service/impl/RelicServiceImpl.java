@@ -1,5 +1,7 @@
 package com.atguigu.ssm.service.impl;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.fastjson.JSONObject;
 import com.atguigu.ssm.mapper.RelicMapper;
 import com.atguigu.ssm.pojo.Relic;
 import com.atguigu.ssm.service.RelicService;
@@ -14,6 +16,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -96,5 +99,17 @@ public class RelicServiceImpl implements RelicService {
         String filePath=photoPath+File.separator+fileName;
         photo.transferTo(new File(filePath));
         return fileName;
+    }
+
+    @Override
+    public void exportExcel() {
+        String fileName = "C:\\Users\\Hasee\\Desktop\\TEST.xlsx";
+        List<Relic> allRelic = relicMapper.getAllRelic();
+        EasyExcel.write(fileName, Relic.class).sheet("博物馆藏品信息").doWrite(allRelic);
+    }
+
+    @Override
+    public void addRelicByList(List<Relic> list) {
+        relicMapper.addRelicByList(list);
     }
 }

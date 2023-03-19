@@ -1,14 +1,25 @@
 package com.atguigu.ssm.pojo;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+
 public class Relic {
+    @ExcelProperty("序号")
     private Integer id;
+    @ExcelProperty("名称")
     private String relName;
+    @ExcelProperty("图片")
     private String photo;
+    @ExcelProperty("文物级别")
     private String level;
+    @ExcelProperty("时期")
     private String time;
+    @ExcelProperty("出土地点")
     private String location;
+    @ExcelProperty("尺寸")
     private String size;
+    @ExcelProperty("材质")
     private String material;
+    @ExcelProperty("状态")
     private Integer status;
 
     public Relic() {

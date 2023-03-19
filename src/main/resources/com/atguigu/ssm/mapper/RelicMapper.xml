@@ -3,6 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.ssm.mapper.RelicMapper">
+<!--    void addRelicByList(List<Relic> list);-->
+    <insert id="addRelicByList" parameterType="list">
+        insert into t_rel (id, rel_name, photo, time, level, location, size, material, status) values
+            <foreach collection="list" item="item" index="index" separator=",">
+                (null,#{item.relName},#{item.photo},#{item.time},#{item.level},#{item.location},#{item.size},#{item.material},#{item.status})
+            </foreach>
+    </insert>
 <!--    List<Relic> getAllRelic();-->
     <select id="getAllRelic" resultType="Relic">
         select * from t_rel
