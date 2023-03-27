@@ -15,6 +15,7 @@
     </style>
 </head>
 <body>
+<div id="app">
 <!-- 导入的模态框 -->
 <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -258,17 +259,19 @@
     </div>
 <!--    按钮-->
     <div class="row">
-        <div class="col-md-4 col-md-offset-9">
+        <div class="col-md-4 col-md-offset-8">
             <button class="btn btn-primary" id="add_modal_btn">
                 <span class="glyphicon glyphicon-plus"></span>添加</button>
             <button class="btn btn-info" id="import_modal_btn">
                 <span class="glyphicon glyphicon-import"></span>导入</button>
             <button class="btn btn-warning" id="export_modal_btn">
                 <span class="glyphicon glyphicon-export"></span>导出</button>
+            <a class="btn btn-danger" id="delete_all_btn" th:href="@{/relic/deleteAllRelic}" role="button" @click="deleteAllRelic()">
+                <span class="glyphicon glyphicon-remove"></span>全部删除</a>
         </div>
     </div>
 <!--    显示表格数据-->
-    <div class="row" id="app">
+    <div class="row">
         <div class="col-md-12">
                 <table class="table table-hover">
                     <tr>
@@ -343,6 +346,7 @@
 
     </div>
 </div>
+</div>
 
 </body>
 <script type="text/javascript" th:src="@{/static/js/vue.js}"></script>
@@ -351,6 +355,13 @@
     var vue=new Vue({
         el:"#app",
         methods:{
+            deleteAllRelic(){
+                var form = document.getElementById("deleteForm");
+                form.action = event.target.href;
+                form.submit();
+                event.preventDefault();
+                alert("删除成功！")
+            },
             deleteVisitor(){
                 //获取form表单
                 var form=document.getElementById("deleteForm");
@@ -414,6 +425,21 @@
         })
         alert("导出成功！");
     })
+
+    //点击全部删除按钮弹出
+    // $("#delete_all_btn").click(function (){
+    //     if (confirm("确定要删除全部藏品信息吗？")) {
+    //         $.ajax({
+    //             url:"/sxhm/relic/deleteAllRelic",
+    //             type: "DELETE",
+    //             success:function (result) {
+    //                 console.log("删除成功");
+    //             }
+    //         })
+    //
+    //     }else {
+    //     }
+    // })
 
 </script>
 </html>

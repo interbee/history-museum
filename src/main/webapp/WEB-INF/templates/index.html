@@ -14,9 +14,7 @@
             <div class="navigation">
                 <div class="nav-items">
                     <i class="uil uil-times nav-close-btn"></i>
-                    <a th:if="${user}!=null" href="" th:text="'欢迎，'+${user.username}"><i class="uil uil-home"></i> </a>
-                    <a th:if="${user}==null" href=""><i class="uil uil-home"></i> 主页</a>
-                    <a th:if="${user}!=null" th:href="@{/to/order}" target="_blank"><i class="uil uil-compass"></i> 预约</a>
+                    <a href=""><i class="uil uil-home"></i> 主页</a>
                     <a th:href="@{/to/show/1}" target="_blank"><i class="uil uil-meeting-board"></i> 展览</a>
                     <a th:href="@{/to/relic/1}" target="_blank"><i class="uil uil-document-layout-left"></i> 藏品</a>
                     <a href="#"><i class="uil uil-info-circle"></i> 关于</a>

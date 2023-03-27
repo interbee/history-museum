@@ -112,4 +112,9 @@ public class RelicServiceImpl implements RelicService {
     public void addRelicByList(List<Relic> list) {
         relicMapper.addRelicByList(list);
     }
+
+    @Override
+    public void deleteAllRelic() {
+        relicMapper.deleteAllRelic();
+    }
 }

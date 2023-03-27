@@ -34,4 +34,6 @@ public interface RelicService {
     void exportExcel();
 
     void addRelicByList(List<Relic> list);
+
+    void deleteAllRelic();
 }

@@ -22,4 +22,6 @@ public interface RelicMapper {
     List<Relic> getRelicBySearch(Map map);
 
     void addRelicByList(List<Relic> list);
+
+    void deleteAllRelic();
 }

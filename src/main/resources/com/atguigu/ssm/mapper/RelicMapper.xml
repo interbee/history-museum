@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.ssm.mapper.RelicMapper">
+<!--    void deleteAllRelic();-->
+    <delete id="deleteAllRelic">
+        delete from t_rel
+    </delete>
 <!--    void addRelicByList(List<Relic> list);-->
     <insert id="addRelicByList" parameterType="list">
         insert into t_rel (id, rel_name, photo, time, level, location, size, material, status) values

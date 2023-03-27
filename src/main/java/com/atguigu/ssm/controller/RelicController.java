@@ -25,14 +25,19 @@ public class RelicController {
     @Autowired
     private RelicService relicService;
 
-    @ResponseBody
+    @RequestMapping(value = "/relic/deleteAllRelic", method = RequestMethod.DELETE)
+    public String deleteAllRelic() {
+        relicService.deleteAllRelic();
+        return "redirect:/relic/page/1";
+    }
+
     @RequestMapping(value = "/relic/import", method = RequestMethod.POST)
     public String importRelicInfo(MultipartFile file) throws IOException {
         ExcelListener excelListener = new ExcelListener();
         EasyExcel.read(file.getInputStream(), Relic.class, excelListener).sheet().doRead();
         List<Relic> list = excelListener.getDataList();
         relicService.addRelicByList(list);
-        return "success";
+        return "redirect:/relic/page/1";
     }
 
     @RequestMapping(value = "/relic/export", method = RequestMethod.GET)
